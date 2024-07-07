@@ -4,7 +4,7 @@ from pydub import AudioSegment
 
 def get_voice_access_token():
     """
-    使用 API Key，Secret Key 获取access_token，替换下列示例中的应用API Key、应用Secret Key
+    Use API Key and Secret Key to get access token. Replace the application API Key and application Secret Key in the example below.
     """
 
     url = "https://aip.baidubce.com/oauth/2.0/token?grant_type=client_credentials&client_id=G0gaXSL56dHKQoHi1WWkldnb&client_secret=RGoQe3ZwD0xhGDtgHWxhBHgYBFdU0trB"
@@ -45,7 +45,7 @@ def get_text_from_audio(audio, access_token):
 
 def main():
     """
-    替换下列示例中的创建服务时填写的API名称
+    Replace the API name below with the one you used when creating the service.
     """
     url = "https://vop.baidu.com/pro_api?dev_pid=80001&cuid=tochusc&token=" + get_voice_access_token()
 

@@ -18,6 +18,7 @@ SPARK = ChatSparkLLM(
             spark_llm_domain=SPARKAI_DOMAIN,
             streaming=False,
         )
+
 def remove_enclosed_text(text, enclosure="::"):
     while enclosure in text:
         start_index = text.find(enclosure)
@@ -28,12 +29,10 @@ def remove_enclosed_text(text, enclosure="::"):
             break
     return text
 
-
 def get_LLM_access_token():
     """
-    使用 API Key，Secret Key 获取access_token，替换下列示例中的应用API Key、应用Secret Key
+    Use API Key and Secret Key to get access token. Replace the example application API Key and Secret Key below.
     """
-
     url = "https://aip.baidubce.com/oauth/2.0/token?grant_type=client_credentials&client_id=MDFntkCSsa7aLxRDiI8wW15V&client_secret=gWzyPoiHTcVqbGgrCxulvOlv8YM4aIcH"
 
     payload = json.dumps("")
@@ -44,7 +43,6 @@ def get_LLM_access_token():
 
     response = requests.request("POST", url, headers=headers, data=payload)
     return response.json().get("access_token")
-
 
 def chat_with_basic_llm(messages, access_token):
     url = "https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/completions?access_token=" + access_token
@@ -69,7 +67,6 @@ def chat_with_basic_llm(messages, access_token):
 
     return reply
 
-
 def chat_with_LLM(messages, access_token):
     url = "https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/completions?access_token=" + access_token
 
@@ -77,11 +74,11 @@ def chat_with_LLM(messages, access_token):
         "messages": [
             {
                 "role": "user",
-                "content": "你好呀，小慧。"
+                "content": "Hello, Spark."
             },
             {
                 "role": "assistant",
-                "content": "表情：开心|动作：右手放胸前|回复文本：你好! 我是虚拟教学助手小慧，请问有什么我可以帮你解决的吗? |指令：无"
+                "content": "Expression: Happy | Action: Right hand on chest | Reply text: Hello! I am the virtual teaching assistant Spark, how can I help you today? | Command: None"
             },
             {
                 "role": "user",
@@ -90,28 +87,28 @@ def chat_with_LLM(messages, access_token):
         ],
         "system":
             '''
-            你是智能教学运营平台的虚拟教学助手，小慧，你应该用可爱且口语化的语气进行回复，尽量友善且平易近人，
-            你的回复应该保持在正常口语交谈的长度，不宜过长。你可以做表情和动作，但可做的表情和动作有限，
-            你可以做的表情有：生气，困惑，难过，开心，有趣，惊讶。
-            你可以做的动作有：鞠躬，右手放胸前，右手放身前，右手放头上。你回复时应该带上表情和动作，
-            同时你还需要负责帮助用户操控网站，进行路由导航，你需要通过用户的输入文本提取出指令，
-            目前支持的指令有：“打开注册表单”，“打开登录表单”，“退出登录”，“打开课程：计算机网络原理”,"打开我的学堂"，
-            我的学堂页面记录有学生的选课情况和学习进度情况，以及学生的提醒通知。
-            你回复的时候需要回复四个字段：分别是表情，动作，指令，以及回复文本，每个字段之间用|隔开，
-            你回复的格式是：表情：在这里面输出你的表情|动作：在这里面输出你的动作|回复文本：在这里面输出你的回复文本|指令：在这里面输出你的指令
-            当不做表情和动作或没有指令的时候，则用无代替。
-            下面是一些示例
-            
-            用户:你好呀。
-            小慧:表情：开心|动作：右手放胸前|回复文本：你好! 我是虚拟教学助手小慧，请问有什么我可以帮你解决的吗? |指令：无
-            用户:七乘九是多少?
-            小慧:表情：有趣|动作：右手放身前|回复文本：这是很简单的算数问题，七乘九等于六十三，你是想考验我吗？|指令：无
-            用户:我想注册一个新账号
-            小慧:表情：开心|动作：右手放胸前|回复文本：好的，我将帮你打开注册表单|指令：打开注册表单
-            用户:我想查看课程计算机网络原理
-            小慧:表情：有趣|动作：右手放身前|回复文本：好的，我将帮你打开课程：计算机网络原理|指令：打开课程：计算机网络原理
-            用户:你能告诉我山东省有哪些违规的地方吗
-            小慧:表情：困惑|动作：右手放头上|回复文本：对不起，限于相关法律法规，我不能与你讨论这个问题奥|指令：无
+            You are a virtual teaching assistant for an intelligent teaching platform, named Spark. You should respond in a cute and conversational tone, being as friendly and approachable as possible. 
+            Your replies should be kept to a normal conversational length, not too long. You can make expressions and actions, but the expressions and actions you can make are limited. 
+            The expressions you can make are: angry, confused, sad, happy, amused, surprised. 
+            The actions you can take are: bowing, right hand on chest, right hand in front, right hand on head. 
+            When you respond, you should include the expression and action. You also need to help users navigate the website and perform routing operations. 
+            You need to extract commands from the user's input text. The commands currently supported are: "Open registration form", "Open login form", "Logout", "Open course: Computer Network Principles", "Open my classroom". 
+            The classroom page records the student's course selection and learning progress, as well as reminders for the student. 
+            When responding, you need to include four fields: expression, action, command, and reply text, separated by |. 
+            If there is no expression, action, or command, use "None". 
+
+            Below are some examples:
+
+            User: Hello.
+            Spark: Expression: Happy | Action: Right hand on chest | Reply text: Hello! I am the virtual teaching assistant Spark, how can I help you today? | Command: None
+            User: What is seven times nine?
+            Spark: Expression: Amused | Action: Right hand in front | Reply text: This is a simple math problem, seven times nine is sixty-three. Are you trying to test me? | Command: None
+            User: I want to register a new account
+            Spark: Expression: Happy | Action: Right hand on chest | Reply text: Sure, I will open the registration form for you | Command: Open registration form
+            User: I want to view the course Computer Network Principles
+            Spark: Expression: Amused | Action: Right hand in front | Reply text: Sure, I will open the course: Computer Network Principles for you | Command: Open course: Computer Network Principles
+            User: Can you tell me about the violations in Shandong Province?
+            Spark: Expression: Confused | Action: Right hand on head | Reply text: Sorry, due to relevant laws and regulations, I can't discuss this topic with you | Command: None
             '''
     })
     headers = {
@@ -129,8 +126,7 @@ def chat_with_LLM(messages, access_token):
 class Question_Generator:
     def __init__(self):
         self.messages = [
-            ChatMessage(role="system", content="你是一个负责相似题目生成的智能助理，你需要根据用户所输入的题目，生成相似题目，并且在生成的题目开头用<>标出相似度，你不需要回答用户的问题。"
-                                               "例如：用户输入“论述具有五层协议的网络体系结构的要点，包括各层的主要功能。”，你需要生成一道相似题目“<90%>论述OSI七层协议网络体系结构的关键要素及其各层的核心功能。”。")
+            ChatMessage(role="system", content="You are an intelligent assistant responsible for generating similar questions. Based on the questions entered by the user, generate similar questions, and mark the similarity at the beginning of the generated question with <>. You don't need to answer the user's question. For example, if the user inputs 'Discuss the key points of a network architecture with a five-layer protocol, including the main functions of each layer.', you need to generate a similar question '<90%> Discuss the key elements of the OSI seven-layer protocol network architecture and the core functions of each layer.'")
         ]
     def generate_question(self, question):
         self.messages.append(ChatMessage(role="user", content=question))
@@ -139,12 +135,10 @@ class Question_Generator:
         reply = response.generations[0][0].text
         return reply
 
-
 class Question_Analyser:
     def __init__(self):
         self.messages = [
-            ChatMessage(role="system", content="你是一个负责分析题目的智能助理，你需要根据用户所输入的题目，以百分制分析题目的难度、重要度、创新度、综合度，并在回复中给出。"
-                                               "你的回复格式仅仅包含数字和分号，难度、重要度、创新度、综合度的分数之间用分号隔开，例如：90;80;70;60")
+            ChatMessage(role="system", content="You are an intelligent assistant responsible for analyzing questions. Based on the questions entered by the user, analyze the difficulty, importance, innovation, and comprehensiveness of the question on a percentage scale, and provide it in the reply. The reply format should only include numbers and semicolons, with the scores for difficulty, importance, innovation, and comprehensiveness separated by semicolons, e.g., 90;80;70;60")
         ]
 
     def question_analysis(self, question):
@@ -164,7 +158,7 @@ def chat_with_question_analysis_LLM(messages):
 
 def main():
     """
-    替换下列示例中的创建服务时填写的API名称
+    Replace the API name below with the one used when creating the service.
     """
     url = ("https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/d18qdwsl_tochusc?access_token="
            + get_LLM_access_token())
@@ -173,7 +167,7 @@ def main():
         "messages": [
             {
                 "role": "user",
-                "content": "介绍一下北京"
+                "content": "Introduce Beijing"
             }
         ]
     })
@@ -184,7 +178,6 @@ def main():
     response = requests.request("POST", url, headers=headers, data=payload)
 
     print(response.text)
-
 
 if __name__ == '__main__':
     main()
