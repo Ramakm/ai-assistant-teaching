@@ -1,17 +1,17 @@
 import axios from 'axios'
 import { ElMessageBox, ElMessage } from 'element-plus'
 
-// 创建axios实例
+// Create axios instance
 const service = axios.create({
   baseURL: 'http://127.0.0.1:8000/api', // url = base url + request url
   // withCredentials: true, // send cookies when cross-domain requests
   timeout: 5000 // request timeout
 })
 
-//请求拦截器：携带的token字段
+// Request interceptor: carries the token field
 service.interceptors.request.use(
   config => {
-    // do something before request is sent
+    // Do something before request is sent
     config.headers = config.headers || {}
     if (localStorage.getItem('token')) {
       config.headers.token = localStorage.getItem('token') || ''
@@ -19,16 +19,16 @@ service.interceptors.request.use(
     return config
   },
   error => {
-    // do something with request error
+    // Do something with request error
     console.log(error) // for debug
     return Promise.reject(error)
   }
 )
 
-//响应拦截器
+// Response interceptor
 service.interceptors.response.use(
   response => {
-    //服务器响应失败在干什么,因为咱们真实服务器返回code  20000也有可能200
+    // What to do if the server response fails, because our real server might return code 20000 or 200
     if (response.status !== 201 && response.status != 200) {
       ElMessage({
         message: response.statusText || 'Error',
@@ -38,7 +38,7 @@ service.interceptors.response.use(
 
       // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
       if (response.status === 404 || response.status === 50012 || response.status === 50014) {
-        // to re-login
+        // To re-login
         ElMessageBox.confirm('You have been logged out, you can cancel to stay on this page, or log in again', 'Confirm logout', {
           confirmButtonText: 'Re-Login',
           cancelButtonText: 'Cancel',
@@ -49,9 +49,9 @@ service.interceptors.response.use(
           })
         })
       }
-      return ''
+      return Promise.reject(new Error('Server response error'))
     } else {
-      //服务器相应成功干什么
+      // What to do if the server response succeeds
       return response
     }
   },

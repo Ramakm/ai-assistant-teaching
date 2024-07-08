@@ -50,7 +50,7 @@ def main():
         "messages": [
             {
                 "role": "user",
-                "content": "Introduce Beijing"
+                "content": "Introduce Mumbai"
             }
         ]
     })
@@ -69,7 +69,7 @@ if __name__ == '__main__':
         "messages": [
             {
                 "role": "user",
-                "content": "Introduce Beijing"
+                "content": "Introduce Mumbai"
             }
         ],
         "system": "You are an intelligent teaching assistant, Xiao Hui. You should respond in a cute and conversational tone, being as friendly and approachable as possible. Your replies should be of normal conversational length, not too long."

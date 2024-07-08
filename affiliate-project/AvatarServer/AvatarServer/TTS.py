@@ -10,7 +10,7 @@ secret_key = "RGoQe3ZwD0xhGDtgHWxhBHgYBFdU0trB"
 
 def get_access_token():
     """
-    使用 API Key，Secret Key 获取access_token，替换下列示例中的应用API Key、应用Secret Key
+    Use API Key and Secret Key to get access_token. Replace the example API Key and Secret Key below.
     """
 
     url = ("http://aip.baidubce.com/oauth/2.0/token?grant_type=client_credentials&"
@@ -34,7 +34,7 @@ def get_audio_from_text(text, access_token, per=111):
 
     parameter = {
         "tex":text,
-        "lan":"zh",
+        "lan":"en",  # Change language to English
         "ctp":"1",
         "cuid":"toch",
         "aue":"6",
@@ -56,7 +56,7 @@ def sovits_get_audio_from_text(text):
     payload = json.dumps(
         {
         "refer_wav_path": "zhou.wav",
-        "prompt_text": "我刚刚还看到有人说，等着我开播就掉小珍",
+        "prompt_text": "I just saw someone say, waiting for me to start the broadcast will drop Xiaozhen",
         "prompt_language": "zh",
         "text": text,
         "text_language": "zh"
@@ -69,7 +69,7 @@ def sovits_get_audio_from_text(text):
 
 def main():
     """
-    替换下列示例中的创建服务时填写的API名称
+    Replace the API name in the example below when creating the service.
     """
     tok = get_access_token()
     url = "https://tsn.baidu.com/text2audio"
@@ -79,8 +79,8 @@ def main():
     }
 
     parameter = {
-        "tex":"哈喽，我听到你的请求啦，请等小慧思考一下",
-        "lan":"zh",
+        "tex":"Hello, I heard your request, please wait while Xiaohui thinks about it",
+        "lan":"en",  # Change language to English
         "ctp":"1",
         "cuid":"toch",
         "aue":"6",
@@ -96,7 +96,7 @@ def main():
 
 if __name__ == '__main__':
     response_audio = get_audio_from_text(
-        "不客气不客气，我很高兴能帮到你，如果你还有其他问题或需要帮助，随时都可以告诉我哦~", get_access_token())
+        "You're welcome! I'm glad I could help you. If you have any other questions or need assistance, feel free to let me know anytime.", get_access_token())
 
     with open("out.wav", 'wb') as f:
         f.write(response_audio)

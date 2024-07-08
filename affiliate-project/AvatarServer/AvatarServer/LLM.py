@@ -167,7 +167,7 @@ def main():
         "messages": [
             {
                 "role": "user",
-                "content": "Introduce Beijing"
+                "content": "Introduce Mumbai"
             }
         ]
     })
